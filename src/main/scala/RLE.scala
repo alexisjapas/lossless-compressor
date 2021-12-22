@@ -41,8 +41,7 @@ class RLE[T] extends Compressor[T, Seq[(T, Int)]]
         if (seq.isEmpty){
           uncompressed_seq
         } else{
-          val new_uncompress_seq = tupleUncompress(seq.head._1, seq.head._2, uncompressed_seq)
-          uncompressBis(seq.drop(1), new_uncompress_seq)
+          uncompressBis(seq.drop(1), tupleUncompress(seq.head._1, seq.head._2, uncompressed_seq))
         }
       }
 
