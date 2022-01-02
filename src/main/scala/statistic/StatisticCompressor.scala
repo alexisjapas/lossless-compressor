@@ -2,6 +2,8 @@ package statistic
 
 import compress.Compressor
 
+import scala.annotation.tailrec
+
 
 /** A statistic compressor relies on the statistics of symbols in source
   * @param source the input source
@@ -30,8 +32,21 @@ abstract class StatisticCompressor[S](source : Seq[S]) extends Compressor[S, Seq
     def tree : Option[EncodingTree[S]]
 
     /** @inheritdoc */
-    def compress(msg: Seq[S]): Seq[Bit] = ???
+    def compress(msg: Seq[S]): Seq[Bit] = {
+      @tailrec
+      def compress_bis(msg: Seq[S], compressed: Seq[Bit]) : Seq[Bit] = {
+        if (msg.isEmpty) {
+          compressed
+        } else {
+          compress_bis(msg.drop(1),
+            compressed ++ tree.head.encode(msg.head).head)
+        }
+      }
+      compress_bis(msg, Seq())
+    }
 
     /** @inheritdoc */
-    def uncompress(res: Seq[Bit]): Option[Seq[S]] = ???
+    def uncompress(res: Seq[Bit]): Option[Seq[S]] = {
+      tree.head.decode(res)
+    }
   }

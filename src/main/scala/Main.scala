@@ -1,5 +1,7 @@
 import lz.LZW
-import statistic.{EncodingLeaf, EncodingNode, Huffman, Zero, One}
+import statistic.{Bit, EncodingLeaf, EncodingNode, Huffman, One, Zero}
+
+import scala.annotation.tailrec
 
 
 class Test_RLE[T] {
@@ -99,12 +101,13 @@ object Main {
 //    val te = new LZW()
 //    println(te.uncompress(to_un))
     // aaabbc
-    val seq_aaabbc = Seq(One, Zero, Zero, One, Zero, One, Zero, One, One)
+    val seq_aaabbc = Seq(Zero, Zero, Zero, One, Zero, One, Zero, One, One)
     val feuille_a = new EncodingLeaf[Char](3, 'a')
     val feuille_b = new EncodingLeaf[Char](2, 'b')
     val feuille_c = new EncodingLeaf[Char](1, 'c')
     val branche_c_b = new EncodingNode[Char](3, feuille_b, feuille_c)
     val arbre = new EncodingNode[Char](6, feuille_a, branche_c_b)
+
     println(arbre.decode(seq_aaabbc))
   }
 }
