@@ -1,4 +1,5 @@
 import lz.LZW
+import statistic.{EncodingLeaf, EncodingNode, Huffman, Zero, One}
 
 
 class Test_RLE[T] {
@@ -58,6 +59,10 @@ object Main {
     val empty_int_seq:Seq[Int] = IndexedSeq()
     val seq_seq:Seq[Seq[Int]] = IndexedSeq(IndexedSeq(1, 2, 3), IndexedSeq(1, 2, 3), IndexedSeq(2))
     val string_seq:Seq[String] = IndexedSeq("Scalapi", "Scalapi", "Scapali", "Poum", "Poum")
+    val char_seq1:Seq[Char] = Seq('b', 'e', 'l', 'l', 'e', 's', ' ', 'b', 'e', 'l', 'l', 'e', 's', ' ' , 'c', 'o', 'm', 'm', 'e', ' ', 'l', 'e', ' ', 'j', 'o', 'u', 'r', ' ', '!')
+    val char_seq2:Seq[Char] = Seq('C', '\'', 'e', 's', 't', ' ', 'a', 's', 's', 'e', 'z', ',', ' ', 'd' , 'i', 't', ' ', 'l', 'a', ' ', 'b', 'a', 'l', 'e', 'i', 'n', 'e')
+    val char_seq3:Seq[Char] = Seq('S', 'o', 'n', 't', '-', 'e', 'l', 'l', 'e', 's', ' ', 's', 'è', 'c' , 'h', 'e', 's', ' ', '?')
+    val char_seq4:Seq[Char] = Seq('C', 'e', ' ', 'p', 'a', 'l', 'e', ' ', 'p', 'a', 'l', 'o', 'i', 's' , ' ', 'e', 's', 't', ' ', 'e', 'm', 'p', 'a', 'l', 'e', ' ' , 's', 'u', 'r', ' ', 'u', 'n', ' ', 'p', 'a', 'l', 'e')
 
     // Test
 //    println("#### CHAR ####")
@@ -78,10 +83,28 @@ object Main {
 //    test_string.test(string_seq)
 
     // TEST DICT
-    println("#### DICTIONARIES ####")
-    val test_lz = new Test_LZ
-    test_lz.test_lz78(char_seq)
-    test_lz.test_lzw("TOBEORNOTTOBEORTOBEORNOT")
+//    println("#### DICTIONARIES ####")
+//    val test_lz = new Test_LZ
+//    test_lz.test_lz78("on on on on on onono")
+//    test_lz.test_lzw(char_seq)
+//    test_lz.test_lzw(char_seq1)
+//    test_lz.test_lzw(char_seq2)
+//    test_lz.test_lzw(char_seq3)
+//    test_lz.test_lzw(char_seq4)
+//
+//    val seq = "on on on on onono"
+//    test_lz.test_lzw(seq)
 
+//    val to_un = Seq(111, 110, 32, 256, 258, 257, 259, 262, 110, 256, 111)
+//    val te = new LZW()
+//    println(te.uncompress(to_un))
+    // aaabbc
+    val seq_aaabbc = Seq(One, Zero, Zero, One, Zero, One, Zero, One, One)
+    val feuille_a = new EncodingLeaf[Char](3, 'a')
+    val feuille_b = new EncodingLeaf[Char](2, 'b')
+    val feuille_c = new EncodingLeaf[Char](1, 'c')
+    val branche_c_b = new EncodingNode[Char](3, feuille_b, feuille_c)
+    val arbre = new EncodingNode[Char](6, feuille_a, branche_c_b)
+    println(arbre.decode(seq_aaabbc))
   }
 }
