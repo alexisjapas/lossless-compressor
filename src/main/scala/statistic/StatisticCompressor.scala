@@ -18,8 +18,7 @@ abstract class StatisticCompressor[S](source : Seq[S]) extends Compressor[S, Seq
     val entropy : Double = {
       val length : Int = source.size
       val ratios : Iterable[Double] = for (o <- occurrences) yield
-        o._2.asInstanceOf[Double] / length * scala.math.log(o._2.asInstanceOf[Double] / length) / scala.math.log(2)
-
+        o._2.asInstanceOf[Double] / length * scala.math.log(o._2.asInstanceOf[Double] / length) / math.log(2)
       -ratios.foldLeft(0.0) {
         (acc, num) => acc + num
       }
@@ -47,6 +46,10 @@ abstract class StatisticCompressor[S](source : Seq[S]) extends Compressor[S, Seq
 
     /** @inheritdoc */
     def uncompress(res: Seq[Bit]): Option[Seq[S]] = {
-      tree.head.decode(res)
+      if (res.isEmpty) {
+        None
+      } else {
+        tree.head.decode(res)
+      }
     }
   }

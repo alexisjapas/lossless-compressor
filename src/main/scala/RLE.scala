@@ -14,8 +14,8 @@ class RLE[T] extends Compressor[T, Seq[(T, Int)]]
         } else {
           compress_bis(msg.drop(1),
             msg.head,
-            if (current_element.equals(msg.head)) seq_tuples else seq_tuples :+ (current_element, acc),
-            if (current_element.equals(msg.head)) acc + 1 else 1)
+            if (current_element == msg.head) seq_tuples else seq_tuples :+ (current_element, acc),
+            if (current_element == msg.head) acc + 1 else 1)
         }
       }
       if (msg.isEmpty) {

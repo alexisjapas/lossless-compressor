@@ -1,9 +1,6 @@
 import lz.LZW
 import statistic.{Bit, EncodingLeaf, EncodingNode, Huffman, One, Zero}
 
-import scala.annotation.tailrec
-
-
 class Test_RLE[T] {
   def test(msg : Seq[T]): Unit = {
     println(s"RLE on $msg:")
@@ -43,6 +40,23 @@ class Test_LZ {
     val compressed_data = lzw_compressor.compress(msg)
     println(s"Compressed data: $compressed_data")
     val uncompressed_data = lzw_compressor.uncompress(compressed_data)
+    println(s"Uncompressed data: $uncompressed_data")
+    if (uncompressed_data.isEmpty) {
+      println("Empty entry data")
+    } else {
+      println(s"${if (uncompressed_data.get.equals(msg)) "OK" else "ko"}")
+    }
+    println()
+  }
+}
+
+class Test_Huffman[S] {
+  def test(msg : Seq[S]): Unit = {
+    println(s"Huffman on $msg:")
+    val huffman_compressor = new Huffman[S](msg)
+    val compressed_data = huffman_compressor.compress(msg)
+    println(s"Compressed data: $compressed_data")
+    val uncompressed_data = huffman_compressor.uncompress(compressed_data)
     println(s"Uncompressed data: $uncompressed_data")
     if (uncompressed_data.isEmpty) {
       println("Empty entry data")
@@ -101,13 +115,32 @@ object Main {
 //    val te = new LZW()
 //    println(te.uncompress(to_un))
     // aaabbc
-    val seq_aaabbc = Seq(Zero, Zero, Zero, One, Zero, One, Zero, One, One)
-    val feuille_a = new EncodingLeaf[Char](3, 'a')
-    val feuille_b = new EncodingLeaf[Char](2, 'b')
-    val feuille_c = new EncodingLeaf[Char](1, 'c')
-    val branche_c_b = new EncodingNode[Char](3, feuille_b, feuille_c)
-    val arbre = new EncodingNode[Char](6, feuille_a, branche_c_b)
+//    val seq_aaabbc = Seq(Zero, Zero, Zero, One, Zero, One, Zero, One, One)
+//    val feuille_a = new EncodingLeaf[Char](3, 'a')
+//    val feuille_b = new EncodingLeaf[Char](2, 'b')
+//    val feuille_c = new EncodingLeaf[Char](1, 'c')
+//    val branche_c_b = new EncodingNode[Char](3, feuille_b, feuille_c)
+//    val arbre = new EncodingNode[Char](6, feuille_a, branche_c_b)
+//
+//    println(arbre.decode(seq_aaabbc))
 
-    println(arbre.decode(seq_aaabbc))
+    val huffman_char = new Test_Huffman[Char]
+    huffman_char.test(char_seq)
+    huffman_char.test(char_seq1)
+    huffman_char.test(char_seq2)
+    huffman_char.test(char_seq3)
+    huffman_char.test(char_seq4)
+
+    val huffman_int = new Test_Huffman[Int]
+    huffman_int.test(int_seq)
+
+    val huffman_empty = new Test_Huffman[Int]
+    huffman_empty.test(empty_int_seq)
+
+    val huffman_string = new Test_Huffman[String]
+    huffman_string.test(string_seq)
+
+    val huffman_seq = new Test_Huffman[Seq[Int]]
+    huffman_seq.test(seq_seq)
   }
 }
