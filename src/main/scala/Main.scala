@@ -1,5 +1,5 @@
 import lz.LZW
-import statistic.{Bit, EncodingLeaf, EncodingNode, Huffman, One, ShannonFano, Zero}
+import statistic.{Huffman, ShannonFano}
 
 class Test_RLE[T] {
   def test(msg : Seq[T]): Unit = {
@@ -87,95 +87,87 @@ class Test_ShannonFano[S] {
 
 object Main {
   def main(args: Array[String]): Unit = {
-    val char_seq:Seq[Char] = Seq('b', 'e', 'l', 'l', 'e', ' ', 'e', 'c', 'h', 'e', 'l', 'l', 'e', ' ', '!')
-    val int_seq:Seq[Int] = IndexedSeq(1, 1, 1, 2, 4, 4, 5, 5, 3, 2, 3, 3)
     val empty_int_seq:Seq[Int] = IndexedSeq()
-    val seq_seq:Seq[Seq[Int]] = IndexedSeq(IndexedSeq(1, 2, 3), IndexedSeq(1, 2, 3), IndexedSeq(2))
-    val string_seq:Seq[String] = IndexedSeq("Scalapi", "Scalapi", "Scapali", "Poum", "Poum")
+    val char_seq:Seq[Char] = Seq('b', 'e', 'l', 'l', 'e', ' ', 'e', 'c', 'h', 'e', 'l', 'l', 'e', ' ', '!')
     val char_seq1:Seq[Char] = Seq('b', 'e', 'l', 'l', 'e', 's', ' ', 'b', 'e', 'l', 'l', 'e', 's', ' ' , 'c', 'o', 'm', 'm', 'e', ' ', 'l', 'e', ' ', 'j', 'o', 'u', 'r', ' ', '!')
     val char_seq2:Seq[Char] = Seq('C', '\'', 'e', 's', 't', ' ', 'a', 's', 's', 'e', 'z', ',', ' ', 'd' , 'i', 't', ' ', 'l', 'a', ' ', 'b', 'a', 'l', 'e', 'i', 'n', 'e')
     val char_seq3:Seq[Char] = Seq('S', 'o', 'n', 't', '-', 'e', 'l', 'l', 'e', 's', ' ', 's', 'è', 'c' , 'h', 'e', 's', ' ', '?')
     val char_seq4:Seq[Char] = Seq('C', 'e', ' ', 'p', 'a', 'l', 'e', ' ', 'p', 'a', 'l', 'o', 'i', 's' , ' ', 'e', 's', 't', ' ', 'e', 'm', 'p', 'a', 'l', 'e', ' ' , 's', 'u', 'r', ' ', 'u', 'n', ' ', 'p', 'a', 'l', 'e')
-    val char_seq5 = "on on on on onono"
+    val string_seq:Seq[String] = IndexedSeq("Scalapi", "Scalapi", "Scapali", "Poum", "Poum")
+    val int_seq:Seq[Int] = IndexedSeq(1, 1, 1, 2, 4, 4, 5, 5, 3, 2, 3, 3)
+    val seq_seq:Seq[Seq[Int]] = IndexedSeq(IndexedSeq(1, 2, 3), IndexedSeq(1, 2, 3), IndexedSeq(2))
 
-    // Test
-//    println("#### CHAR ####")
-//    val test_char = new Test_RLE[Char]
-//    test_char.test(char_seq)
-//
-//    println("#### INT ####")
-//    val test_int = new Test_RLE[Int]
-//    test_int.test(int_seq)
-//    test_int.test(empty_int_seq)
-//
-//    println("#### SEQ ####")
-//    val test_seq_seq = new Test_RLE[Seq[Int]]
-//    test_seq_seq.test(seq_seq)
-//
-//    println("#### STRING ####")
-//    val test_string = new Test_RLE[String]
-//    test_string.test(string_seq)
+    // RLE
+    println("########## RLE ##########")
+    val test_char = new Test_RLE[Char]
+    val test_int = new Test_RLE[Int]
+    val test_string = new Test_RLE[String]
+    val test_seq_seq = new Test_RLE[Seq[Int]]
+
+    test_int.test(empty_int_seq)
+    test_char.test(char_seq)
+    test_char.test(char_seq1)
+    test_char.test(char_seq2)
+    test_char.test(char_seq3)
+    test_char.test(char_seq4)
+    test_string.test(string_seq)
+    test_int.test(int_seq)
+    test_seq_seq.test(seq_seq)
+
 
     // TEST DICT
-//    println("#### DICTIONARIES ####")
-//    val test_lz = new Test_LZ
-//    test_lz.test_lz78(char_seq5)
-//    test_lz.test_lzw(char_seq)
-//    test_lz.test_lzw(char_seq1)
-//    test_lz.test_lzw(char_seq2)
-//    test_lz.test_lzw(char_seq3)
-//    test_lz.test_lzw(char_seq4)
-//    test_lz.test_lzw(char_seq5)
+    println("########## DICTIONARIES ##########")
+    val test_lz = new Test_LZ
+    test_lz.test_lz78(char_seq)
+    test_lz.test_lz78(char_seq1)
+    test_lz.test_lz78(char_seq2)
+    test_lz.test_lz78(char_seq3)
+    test_lz.test_lz78(char_seq4)
 
-//    val to_un = Seq(111, 110, 32, 256, 258, 257, 259, 262, 110, 256, 111)
-//    val te = new LZW()
-//    println(te.uncompress(to_un))
-    // aaabbc
-//    val seq_aaabbc = Seq(Zero, Zero, Zero, One, Zero, One, Zero, One, One)
-//    val feuille_a = new EncodingLeaf[Char](3, 'a')
-//    val feuille_b = new EncodingLeaf[Char](2, 'b')
-//    val feuille_c = new EncodingLeaf[Char](1, 'c')
-//    val branche_c_b = new EncodingNode[Char](3, feuille_b, feuille_c)
-//    val arbre = new EncodingNode[Char](6, feuille_a, branche_c_b)
-//
-//    println(arbre.decode(seq_aaabbc))
+    test_lz.test_lzw(char_seq)
+    test_lz.test_lzw(char_seq1)
+    test_lz.test_lzw(char_seq2)
+    test_lz.test_lzw(char_seq3)
+    test_lz.test_lzw(char_seq4)
 
-//    val huffman_char = new Test_Huffman[Char]
-//    huffman_char.test(char_seq)
-//    huffman_char.test(char_seq1)
-//    huffman_char.test(char_seq2)
-//    huffman_char.test(char_seq3)
-//    huffman_char.test(char_seq4)
-//
-//    val huffman_int = new Test_Huffman[Int]
-//    huffman_int.test(int_seq)
-//
-//    val huffman_empty = new Test_Huffman[Int]
-//    huffman_empty.test(empty_int_seq)
-//
-//    val huffman_string = new Test_Huffman[String]
-//    huffman_string.test(string_seq)
-//
-//    val huffman_seq = new Test_Huffman[Seq[Int]]
-//    huffman_seq.test(seq_seq)
+    // TESTS STATS
+    println("########## STATISTICS ##########")
+    val huffman_empty = new Test_Huffman[Int]
+    huffman_empty.test(empty_int_seq)
 
-      val sf_char = new Test_ShannonFano[Char]
-      sf_char.test(char_seq)
-      sf_char.test(char_seq1)
-      sf_char.test(char_seq2)
-      sf_char.test(char_seq3)
-      sf_char.test(char_seq4)
+    val huffman_char = new Test_Huffman[Char]
+    huffman_char.test(char_seq)
+    huffman_char.test(char_seq1)
+    huffman_char.test(char_seq2)
+    huffman_char.test(char_seq3)
+    huffman_char.test(char_seq4)
 
-      val sf_int = new Test_ShannonFano[Int]
-      sf_int.test(int_seq)
+    val huffman_string = new Test_Huffman[String]
+    huffman_string.test(string_seq)
 
-      val sf_empty = new Test_ShannonFano[Int]
-      sf_empty.test(empty_int_seq)
+    val huffman_int = new Test_Huffman[Int]
+    huffman_int.test(int_seq)
 
-      val sf_string = new Test_ShannonFano[String]
-      sf_string.test(string_seq)
+    val huffman_seq = new Test_Huffman[Seq[Int]]
+    huffman_seq.test(seq_seq)
 
-      val sf_seq = new Test_ShannonFano[Seq[Int]]
-      sf_seq.test(seq_seq)
+    val sf_empty = new Test_ShannonFano[Int]
+    sf_empty.test(empty_int_seq)
+
+    val sf_char = new Test_ShannonFano[Char]
+    sf_char.test(char_seq)
+    sf_char.test(char_seq1)
+    sf_char.test(char_seq2)
+    sf_char.test(char_seq3)
+    sf_char.test(char_seq4)
+
+    val sf_string = new Test_ShannonFano[String]
+    sf_string.test(string_seq)
+
+    val sf_int = new Test_ShannonFano[Int]
+    sf_int.test(int_seq)
+
+    val sf_seq = new Test_ShannonFano[Seq[Int]]
+    sf_seq.test(seq_seq)
   }
 }

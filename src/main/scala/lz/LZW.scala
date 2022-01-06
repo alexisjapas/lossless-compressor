@@ -28,7 +28,7 @@ class LZW(val initialDictionary : Dictionary = ASCII) extends Compressor[Char, S
           else{
             if (!dico.contains(read)){
 
-              val newDico = dico :+ (read)
+              val newDico = dico :+ read
               compress_bis(msg.drop(nb-1),
                 compressed:+newDico.indexOf(read.take(read.length-1)),
                 newDico,
